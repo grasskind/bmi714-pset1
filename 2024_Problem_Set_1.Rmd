@@ -1,0 +1,311 @@
+---
+title: 'BMI 714 Problem Set #1, Fall 2024 (70 points total)'
+author: "Your Name Here"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# Overview
+
+## Instructions
+
+You will be submitting this assignment via GitHub Classroom. Your submission will be recorded when you push a commit to the repository on GitHub Classroom (instructions below), and you can make as many commits as you want before the deadline. We will grade assignments based on the latest commit.
+
+### How to commit code to GitHub
+
+1.  Open either GitHub Desktop or a command line terminal and navigate to the repository that contains this assignment (via the GUI or cd command)
+2.  Add the new or modified files to the staging area by either checking the box next to the files or using the command "git add \<filename(s)\>"
+3.  Commit the changes. You are required to include a commit message. This is found in the small text box near the commit button on GitHub Desktop or using the command "git commit -m 'commit message goes here'"
+4.  Push your changes and files to the remote repository. This is done by pressing the Push to Origin button on GitHub Classroom or with the command "git push"
+
+### What to Submit
+
+You will need to submit **both** an R Markdown file and a knitted HTML or PDF for this assignment. When you finish the assignment, press the arrow next to the "Knit" button near the top panel of RStudio and select the option to knit to HTML or PDF. Make sure the new HTML or PDF appears in your repository and then follow the steps to commit to GitHub classroom. If you are having trouble knitting with the `{txt}` chunks, you can remove those chunks and type your answers outside of the chunks with clear labels.
+
+
+# Problem 1 (32 pts)
+
+Suppose we are part of a team studying adolescent hand and arm injuries. We are specifically interested in the location trends of such injuries.
+
+For this problem set, we will use the `tidyverse` package to work with a dataset of consumer-product related injuries collected by the National Electronic Injury Surveillance System (NEISS) in 2020. Write code to load the relevant package(s) into your R session in the chunk below.
+
+```{r}
+library(tidyverse)
+```
+
+### 1.1 (2 pts)
+
+Download the neiss_2020.txt file from Canvas > Files > Data > NEISS. NOTE: PLEASE DO NOT SAVE THE NEISS DATA FILE IN YOUR GITHUB REPO! This will slow down git operations, such as staging and committing. Instead, store the data in a different directory, and access it via its file path on your computer. This will still allow you to knit your R Markdown file and will not be an issue for grading.
+
+Read the `neiss_2020.txt` file and store as a variable called `neiss_2020`.
+
+```{r}
+```
+
+### 1.2 (3 pts)
+
+Add a column called `Age_Group` to the `neiss_2020` dataframe, which classifies each person into an age group: "Infants," "Children," "Adolescents," or "Adults." Define age groups using the following ranges:
+
+- Infants: age > 200
+- Children: age < 10
+- Adolescents: age >= 10 and age < 20
+- Adults: age >= 20 and age <= 200
+
+```{r}
+```
+
+### 1.3 (4 pts)
+
+Read the location codes table from the git repo file `neiss_loc_codes_known.txt`. This is a table of location codes and names that does not contain the code for injuries that occurred in an unknown location.
+
+Using *only* a `dplyr` `join` family function, add a column to the `neiss_2020` dataset that contains the location name for each injury, while also removing injuries in unknown locations. Save the result back to the `neiss_2020` variable.
+
+```{r}
+```
+
+### 1.4 (4 pts)
+
+Create a summary table that lists the number of people in each combination of `Age_Group` and `LOC` values. Since we are interested in hand and arm injuries, only include injuries for which the `Body_Part` column is either "HAND", "LOWER_ARM", "ELBOW", "UPPER_ARM", or "SHOULDER".
+
+Your resulting table should have three columns: `Age_Group`, `LOC`, and `count`. Save this table in a variable called `arm_counts`.
+
+```{r}
+```
+
+### 1.5 (3 pts)
+
+Consider `arm_counts`. Is it wide or long? Is it tidy or not tidy? Briefly justify (max 2-3 sentences).
+
+```{txt}
+
+```
+
+### 1.6 (5 pts)
+
+Use `arm_counts` to create a summary table that lists the age group with the highest number of hand/arm injuries in each location.
+
+Your summary table should have three columns: `LOC`, `max_ct`, and `max_agegrp`. Each row should correspond to a location, `max_agegrp` should contain the age group with the highest number of arm injuries in each location, and `max_ct` should contain the count of injuries in that age group. You do not need to store this output in a variable.
+**Hint:** You can use the `which.max` function to find the index of the maximum value in a vector.
+
+```{r}
+```
+
+In which locations do adolescents have the highest number of arm injuries, compared to other age groups in those locations?
+
+```{txt}
+```
+
+### 1.7 (4 pts)
+
+Based on 1.6, you now have a table of locations and their most-injured age group. **Extend the code** you wrote for 1.6 to use this table to filter `neiss_2020` to only the injuries that happened to the most-injured age group for their location. Print out the first few rows of the resulting data table, but you do not have to save it to a variable.
+
+```{r}
+```
+
+### 1.8 (3 pts)
+
+We want to conduct a follow-up study of adolescents who sustained a hand or arm injury from a sporting event. Subset `neiss_2020` to cases eligible for follow-up. Remember, the criteria are: 1) injury to the hand or arm (based on the list of `Body_Part` values specified in 1.4), 2) adolescent at the time of injury, and 3) injury location was "SPORTS".
+
+```{r}
+```
+
+How many people are in this follow-up subset?
+
+```{txt}
+```
+
+### 1.9 (4 pts)
+
+Using the subset of the data defined in 1.8, create a table where the rows correspond to body parts (from `Body_Part` column) and the columns correspond to disposition (from `Disposition` column), and the values in the table are the average age of people injured with that combination of body part x disposition.
+
+```{r}
+```
+
+# Problem 2 (18 points)
+
+### 2.1 (3 pts)
+
+Provided in the git homework repository is a file called `products_sport.txt` which links product codes to product descriptions for sport-related products **only**. Open this file using an application of your choice (e.g. TextEdit, Numbers, Excel) and take a look at its format.
+
+Use the appropriate function **from the `readr` package** to (1) read in this file, (2) force the first column to be of class "numeric" and the second column of class "character", (3) save the table in a variable called `products`. *Hint: Use the documentation for readr functions to choose an appropriate function and identify the arguments needed to use to change the column variable classes.*
+
+```{r}
+```
+
+### 2.2 (3 pts)
+
+Filter the NEISS 2020 dataset to only include injuries of adolescents. Save the result to a new variable called `neiss_adolescents`. Next, use a function from the `dplyr` `_join` family to add the new information from `products` to `neiss_adolescents`, using the `Product_1` column to join. `neiss_adolescents` should gain a new column with product names, but maintain the same number of rows. Save the output back to `neiss_adolescents`.
+
+*For the rest of this problem, use `neiss_adolescents`, not the full NEISS dataset.*
+
+```{r}
+```
+
+### 2.3 (6 pts)
+
+Use tidyverse pipes to create a summary table from `neiss_adolescents`. Your summary table should have three columns: day of the week, number of injuries on that day of the week, and the number of sports product-related injuries on that day of the week (i.e., injuries for which `Product` is not NA). Each row should correspond to one day of the week. (Hint: You can determine the day of the week using a function from the `lubridate` package and similar syntax as how we calculated months.)
+
+Then, add a fourth column called "proportion" that contains the proportion of sports-related injuries out of all injuries on that day of the week.
+
+```{r}
+```
+
+Which day of the week had the highest number of adolescent sports injuries affecting hand/arm body parts?
+
+```{txt}
+
+```
+
+### 2.4 (6 pts)
+
+Use `ggplot2` to make a stacked bar plot showing the proportion of sports product-related injuries on each day of the week. Each bar should correspond to a day of the week, and should be colored in red for the portion of the injuries due to sports products and gray for the rest of the bar. Do not include a legend, but make sure to include informative, legible x and y axis labels. (Hint: It will be easier to make this plot if you start with `neiss_adolescents`, rather than the summary table you generated in 2.3.)
+
+```{r}
+```
+
+Make one observation about how the proportion of sports product-related injuries for adolescents changes throughout the week.
+
+```{txt}
+```
+
+
+## Reminder: Make an intermediate commit!
+
+You're over halfway through! Try committing your work to this point to GitHub Classroom. It's good to get into a habit of committing your work early and saving consistent checkpoints of your progress.
+
+
+# Problem 3 (12 pts)
+
+Run the code in the chunk below to generate a plot. This graphic (stored in variable `p`) was generated in base R using a publicly available [cancer dataset]("https://corgis-edu.github.io/corgis/datasets/csv/cancer/cancer.csv"). Use the code provided below as a reference when answering questions about the data. 
+
+```{r include = TRUE, out.width = '60%'}
+
+# Load cancer data into environment
+cancer_rates <- read.csv("https://corgis-edu.github.io/corgis/datasets/csv/cancer/cancer.csv", sep = ",", header = TRUE)
+
+# Parse column names for data of interest; ras = (Rates, Age, and Sex)
+ras_data <- cancer_rates[, grepl("Rates.Age.and.Sex", colnames(cancer_rates), ignore.case = TRUE)]
+
+# Period "." characters are read as non-regex characters by adding escapes (i.e. \\. == ".")
+colnames(ras_data) <- sub("\\.", "-", sapply(strsplit(colnames(ras_data), "Sex.?"), `[`, 2))
+colnames(ras_data) <- sub("-\\.\\.", "_", colnames(ras_data)) 
+colnames(ras_data) <- sub("-", "_", colnames(ras_data)) 
+colnames(ras_data) <- sub("\\.\\.\\.", "-", colnames(ras_data)) 
+labels <- colnames(ras_data)
+
+# Extract columns of interest and reformat
+rownames(ras_data) <- cancer_rates$State
+ras_data <- as.data.frame(cbind(labels, t(ras_data)))
+w_ras_data <- ras_data %>% tidyr::separate(., col = labels, into = c("Sex", "Age_Group"), sep = "_")
+l_ras_data <- w_ras_data %>% pivot_longer(., cols = !c("Sex", "Age_Group"), names_to = "States") %>%
+  mutate(Age_Group = case_when(
+    Age_Group == "18" ~ "<18",
+    Age_Group == "64" ~ ">64",
+    TRUE ~ Age_Group
+  )) %>%
+  mutate(Age_Group = factor(Age_Group, levels = c("<18", "18-45", "45-64", ">64")))
+l_ras_data$value <- as.numeric(l_ras_data$value)
+
+# Plot data in strip plot
+stripchart(value ~ Age_Group, data = l_ras_data, 
+           pch = 19, frame = TRUE, vertical = FALSE, 
+           col = hcl.colors(length(unique(l_ras_data$Age_Group))), # the 4 colors are "#4B0055" "#007094" "#00BE7D" "#FDE333
+           method = "jitter", xlab = "Incidence Rate", ylab = "Age_Group", main = "Age_Group Differences in U.S. Cancer Rates")
+legend(x=1200,y=3,c("18", "18-45", "45-64", "64"),cex=.8,col=c("#4B0055", "#007094", "#00BE7D", "#FDE333"),pch=16)
+```
+
+### 3.1 (2 points)   
+
+Identify one geometry and one aesthetic of the graph produced above. Describe each geometry or aesthetic in one sentence that describes what aspect of the data the geometry or aesthetic conveys.
+
+```{txt}
+
+```
+
+### 3.2 (6 points)  
+
+Reproduce the above figure using the ggplot2 library (ggplot2 must be used for full credit). Use the `l_ras_data` variable (generated in example code) as the input data. Make sure your figure has the following features:
+
+  - points positioned and colored based on the input data (Hint: Use the `geom_point` function and set `position=position_jitter(0.5)` to get a similar effect as shown in the original plot.)
+  - colors used in the plot above (Hint: their hex codes are "#4B0055" "#007094" "#00BE7D" "#FDE333")
+  - a descriptive title
+  - x and y axis labels
+  - white background and no gridlines
+  - a legend on the right (either on top of the plot or next to it)
+  
+Your graph may not look exactly the same as the original plot - that's ok! Just make sure that the key components listed above are the same/as similar as possible. 
+  
+Assign the resulting plot to a variable named `pgg`.  Display `pgg` below. 
+
+```{r include = TRUE, warning = FALSE, out.width = '60%'}
+
+```
+
+### 3.3 (2 points) 
+
+Then, use the `theme()` function to change 3 (or more) properties (i.e. background color, font family, etc.) of `pgg`. Refer to the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/theme.html) to get a full list of theme options.
+
+```{r include = TRUE, warning = FALSE}
+
+```
+
+### 3.4 (2 points) 
+
+In many cases, you will need to save your plots as high-quality images or as specific image formats (e.g., for publications). One way to do this is with the `ggsave` function. 
+
+Use `ggsave` to save your plot from 3.4 as a jpg file with resolution of 100 dpi. The image's width should be 10 inches, and you can set the height to an appropriate value that ensures your image does not become distorted. Save the figure as a jpg file named "q3.5_final_graphic.jpg" in your Problem Set #1 git repository.
+
+```{r echo = TRUE, out.width = '60%', out.height='100%'}
+
+```
+
+# Problem 4 (8 points) 
+
+### 4.1 (3 pts)
+
+You have a repository with a set of data files and R scripts to analyze them. You want to share this repository with a collaborator. Does your collaborator need a GitHub account to use git? What is the relationship between git and GitHub?
+
+```{txt}
+```
+
+### 4.2 (3 pts)
+
+Here is how your repository is organized:
+
+my_repo/
+  - scripts/
+    - data_cleaning.R
+    - data_tidying.R
+    - seasonal_analysis.R
+  - data/
+    - injuries.txt
+    - locations.txt
+    - products.txt
+
+Suppose you make changes to the `data_cleaning.R` script, which you'd like to push to the remote repository. You save the changes to the file, but when you try to commit and push your changes, it tells you that there are new commits on the remote repo. So, you fetch and pull from the remote repo, and merge with your current version of the repo.
+
+What will the resulting remote repo look like? Will the `data_cleaning.R` script be updated in the remote repository? Why or why not?
+
+If not, which additional steps do you need to take to update the remote repository with the changes you made to `data_cleaning.R`?
+
+```{txt}
+```
+
+
+### 4.3 (2 pts)
+
+You start working on a new script that you save in `my_repo`, but you don't want the collaborator to see it yet. How can you store a file in a folder without tracking its changes or committing it to the git repository? 
+**Hint:** Check out GitHub's Getting Started guide: https://docs.github.com/en/get-started/getting-started-with-git>
+
+```{txt}
+```
+
+## Don't Forget to Commit
+
+Please remember to submit your assignment by adding all relevant files to the staging area (in this case the R Markdown file and corresponding knitted PDF) and then committing them to GitHub classroom.
+
+## Be courteous with knitting
+
+As a final reminder, please be aware of the length of your knitted HTML or PDF file. If you have used code to print or examine something with a very long output, that should not be included in your knitted HTML or PDF. Before submitting, please double check that there are no overly long print-outs in your HTML or PDF, and that there is no text being cutoff at the edge of the knitted file.
